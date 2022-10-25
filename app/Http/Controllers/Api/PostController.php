@@ -106,4 +106,20 @@ class PostController extends Controller
 
         return new PostResource(true, 'Data Post Berhasil Diupdate !', $post);
     }
+
+    /**
+     * destroy
+     * 
+     * @param  mixed $post
+     * @return void
+     */
+    public function destroy(Post $post)
+    {
+        // delete image
+        Storage::delete('public/posts/' . $post->image);
+
+        $post->delete();
+
+        return new PostResource(true, 'Data Post Berhasil Dihapus !', null);
+    }
 }
