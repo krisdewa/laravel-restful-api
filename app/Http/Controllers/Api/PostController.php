@@ -6,6 +6,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
@@ -42,7 +43,7 @@ class PostController extends Controller
         // upload image
         $image = $request->file('image');
         $image->storeAs('public/posts', $image->hashName());
-        
+
         $post = Post::create([
             'title' => $request->title,
             'content' => $request->content,
@@ -61,5 +62,48 @@ class PostController extends Controller
     public function show(Post $post)
     {
         return new PostResource(true, 'Data Post Ditemukan !', $post);
+    }
+
+    /**
+     * update
+     * 
+     * @param  mixed $request
+     * @param  mixed $post
+     * @return void
+     */
+    public function update(Request $request, Post $post)
+    {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'content' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([$validator->errors()], 422);
+        }
+
+        if ($request->file('image')) {
+            // upload image
+            $image = $request->file('image');
+            $image->storeAs('public/posts', $image->hashName());
+
+            // delete old image
+            Storage::delete('public/posts/' . $post->image);
+
+            // update data with new image
+            $post->update([
+                'title' => $request->title,
+                'content' => $request->content,
+                'image' => $image->hashName(),
+            ]);
+        } else {
+            // update data without image
+            $post->update([
+                'title' => $request->title,
+                'content' => $request->content,
+            ]);
+        }
+
+        return new PostResource(true, 'Data Post Berhasil Diupdate !', $post);
     }
 }
