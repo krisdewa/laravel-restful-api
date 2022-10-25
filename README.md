@@ -7,6 +7,22 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## How to install
+
+1. Clone the repository
+2. Run `composer install`
+3. Run `npm install`
+4. Run `npm run dev`
+5. Run `php artisan migrate`
+6. Run `php artisan db:seed`
+7. Run `php artisan serve`
+8. Open `http://localhost:8000` in your browser
+
+## How to use
+
+1. Run `php artisan serve`
+2. http://127.0.0.1:8000/api/posts - get all posts
+3. http://
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
