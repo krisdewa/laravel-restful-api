@@ -18,8 +18,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::latest()->paginate(5);
-        return new PostResource(true, 'List data Posts', $posts);
+        // $posts = Post::latest()->paginate(5);
+        $posts = Post::latest()->get();
+        return new PostResource(true, 'List Data Posts', $posts);
     }
 
     /**
